@@ -1,5 +1,5 @@
 {
-    "name": "laravolt/indonesia",
+    "name": "deriramdanis/indonesia",
     "description": "Package Laravel yang berisi data Provinsi, Kabupaten/Kota, dan Kecamatan/Desa di seluruh Indonesia.",
     "keywords": ["laravel", "laravolt", "indonesia"],
     "license": "MIT",
