@@ -11,7 +11,8 @@ class VillagesSeeder extends Seeder
     	$Csv = new CsvtoArray;
         \DB::table('villages')->delete();
         $file = __DIR__. '/../../resources/csv/villages.csv';
-        $data_all = $Csv->csv_to_array($file);
+        $header = array('id', 'district_id', 'name');
+        $data_all = $Csv->csv_to_array($file, $header);
 
         $datas = array_chunk($data_all, ceil(count($data_all)/16));
 

@@ -11,7 +11,8 @@ class ProvincesSeeder extends Seeder
 		$Csv = new CsvtoArray;
         \DB::table('provinces')->delete();
         $file = __DIR__. '/../../resources/csv/provinces.csv';
-        $data = $Csv->csv_to_array($file);
+        $header = array('id', 'name');
+        $data = $Csv->csv_to_array($file, $header);
         \DB::table('provinces')->insert($data);
     }
 }

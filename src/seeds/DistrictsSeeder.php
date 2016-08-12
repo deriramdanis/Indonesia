@@ -11,7 +11,8 @@ class DistrictsSeeder extends Seeder
     	$Csv = new CsvtoArray;
         \DB::table('districts')->delete();
         $file = __DIR__. '/../../resources/csv/districts.csv';
-        $data = $Csv->csv_to_array($file);
+        $header = array('id', 'regency_id', 'name');
+        $data = $Csv->csv_to_array($file, $header);
         \DB::table('districts')->insert($data);
     }
 }
