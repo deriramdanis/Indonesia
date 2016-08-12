@@ -8,21 +8,10 @@ class RegenciesSeeder extends Seeder
 {
     public function run()
     {
-        $file = __DIR__. '/../../resources/csv/regencies.csv';
+    	$Csv = new CsvtoArray;
         \DB::table('regencies')->delete();
-
-        if(strpos($file, '\\') !== false)
-        {
-            $file = str_replace('\\', '/', $file);
-        }
-    $query = <<<eof
-    LOAD DATA INFILE '$file'
-     IGNORE INTO TABLE regencies
-     FIELDS TERMINATED BY ','
-     LINES TERMINATED BY '\r\n'
-    ;
-eof;
-
-        \DB::connection()->getpdo()->exec($query);
+        $file = __DIR__. '/../../resources/csv/regencies.csv';
+        $data = $Csv->csv_to_array($file);
+        \DB::table('regencies')->insert($data);
     }
 }

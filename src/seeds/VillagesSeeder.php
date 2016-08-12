@@ -8,23 +8,29 @@ class VillagesSeeder extends Seeder
 {
     public function run()
     {
-		$file = __DIR__. '/../../resources/csv/villages.csv';
+    	$Csv = new CsvtoArray;
         \DB::table('villages')->delete();
+        $file = __DIR__. '/../../resources/csv/villages.csv';
+        $data_all = $Csv->csv_to_array($file);
 
-        if(strpos($file, '\\') !== false)
-        {
-            $file = str_replace('\\', '/', $file);
+        $datas = array_chunk($data_all, ceil(count($data_all)/16));
+
+        foreach ($datas as $data) {
+            $value = "";
+            foreach ($data as $row) {
+                if(stripos($row['name'], "'") !== false){
+                    $row['name'] = str_replace("'", "''", $row['name']);
+                }
+                if($value == ""){
+                    $value = "(".$row['id'].",".$row['district_id'].",'".$row['name']."')";
+                }
+                else{
+                    $value = $value . ",(".$row['id'].",".$row['district_id'].",'".$row['name']."')";
+                }
+            }
+            \DB::insert("insert ignore into villages values " . $value);
         }
-    $query = <<<eof
-    LOAD DATA INFILE '$file'
-     IGNORE INTO TABLE villages
-     FIELDS TERMINATED BY ','
-     LINES TERMINATED BY '\r\n'
-    ;
-eof;
 
-        //echo $query;
-
-        \DB::connection()->getpdo()->exec($query);
     }
+
 }
